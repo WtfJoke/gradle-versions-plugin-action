@@ -1,8 +1,8 @@
 {
-  "name": "typescript-action",
-  "version": "0.0.0",
+  "name": "gradle-versions-plugin-action",
+  "version": "1.0.0",
   "private": true,
-  "description": "TypeScript template action",
+  "description": "Github Action for using https://github.com/ben-manes/gradle-versions-plugin results in github action",
   "main": "lib/main.js",
   "scripts": {
     "build": "tsc",
@@ -15,22 +15,26 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/actions/typescript-action.git"
+    "url": "git+https://github.com/WtfJoke/gradle-versions-plugin-action.git"
   },
   "keywords": [
     "actions",
     "node",
     "setup"
   ],
-  "author": "YourNameOrOrganization",
+  "author": "WtfJoke",
   "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/WtfJoke/gradle-versions-plugin-action/issues"
+  },
+  "homepage": "https://github.com/WtfJoke/gradle-versions-plugin-action#readme",
   "dependencies": {
-    "@actions/core": "^1.2.0"
+    "@actions/core": "^1.2.3"
   },
   "devDependencies": {
-    "@types/jest": "^24.0.23",
-    "@types/node": "^12.7.12",
-    "@typescript-eslint/parser": "^2.8.0",
+    "@types/jest": "^24.9.1",
+    "@types/node": "^12.12.30",
+    "@typescript-eslint/parser": "^2.23.0",
     "@zeit/ncc": "^0.20.5",
     "eslint": "^5.16.0",
     "eslint-plugin-github": "^2.0.0",
@@ -39,7 +43,7 @@
     "jest-circus": "^24.9.0",
     "js-yaml": "^3.13.1",
     "prettier": "^1.19.1",
-    "ts-jest": "^24.2.0",
-    "typescript": "^3.6.4"
+    "ts-jest": "^24.3.0",
+    "typescript": "^3.8.3"
   }
 }
