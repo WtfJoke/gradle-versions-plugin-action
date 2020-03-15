@@ -1,10 +1,13 @@
-name: 'Your name here'
-description: 'Provide a description here'
-author: 'Your name or organization here'
-inputs:
-  myInput:              # change this
-    description: 'input description here'
-    default: 'default value if applicable'
+name: 'Gradle Version Plugin Checker'
+description: 'Use gradle version plugin to check if there are updates to your dependencies'
+author: 'WtfJoke'
+outputs:
+  has_updates:
+    description: 'has updates to existing dependencies'
+  update_text:
+    description: 'Dependencies update information (existing and new version)'
+  update_json:
+    description: 'Dependencies update information (existing and new version) as json'
 runs:
-  using: 'node12'
-  main: 'dist/index.js'
+    using: node12
+    main: dist/index.js
