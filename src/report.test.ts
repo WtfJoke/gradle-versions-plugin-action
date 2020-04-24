@@ -1,4 +1,4 @@
-import {toOutdatedLibraries} from '../src/report'
+import {toOutdatedLibraries} from './report'
 
 test('with valid json expect outdated library can be parsed', async () => {
   const outdatedLibraries = toOutdatedLibraries(dependencyUpdatesJson)
