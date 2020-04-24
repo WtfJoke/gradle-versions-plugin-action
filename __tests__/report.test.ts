@@ -1,5 +1,28 @@
-test('parse valid json', async () => {
-  expect(dependencyUpdatesJson).not.toEqual('')
+import {toOutdatedLibraries} from '../src/report'
+
+test('with valid json expect outdated library can be parsed', async () => {
+  const outdatedLibraries = toOutdatedLibraries(dependencyUpdatesJson)
+
+  expect(outdatedLibraries.length).toBe(2)
+
+  const anOutdatedLibrary = outdatedLibraries[1]
+  expect(anOutdatedLibrary.name).toBe('de.codecentric:chaos-monkey-spring-boot')
+  expect(anOutdatedLibrary.currentVersion).toBe('2.1.1')
+  expect(anOutdatedLibrary.latestVersion).toBe('2.2.0')
+  expect(anOutdatedLibrary.projectUrl).toBe(
+    'https://github.com/codecentric/chaos-monkey-spring-boot/chaos-monkey-dependencies/chaos-monkey-spring-boot'
+  )
+})
+
+test('with valid json expect outdated plugin can be parsed', async () => {
+  const outdatedLibraries = toOutdatedLibraries(dependencyUpdatesJson)
+
+  expect(outdatedLibraries.length).toBe(2)
+  const anOutdatedPlugin = outdatedLibraries[0]
+  expect(anOutdatedPlugin.name).toBe('com.github.ben-manes.versions')
+  expect(anOutdatedPlugin.currentVersion).toBe('0.27.0')
+  expect(anOutdatedPlugin.latestVersion).toBe('0.28.0')
+  expect(anOutdatedPlugin.projectUrl).toBeNull()
 })
 
 const dependencyUpdatesJson = `{
