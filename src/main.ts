@@ -1,16 +1,18 @@
 import * as core from '@actions/core'
-import {wait} from './wait'
+import {executeDepdencyUpdates} from './gradle'
+import {asUpdateText} from './report'
 
 async function run(): Promise<void> {
   try {
-    const ms: string = core.getInput('milliseconds')
-    core.debug(`Waiting ${ms} milliseconds ...`)
+    core.info("Executing gradle task 'dependencyUpdates'")
+    const updates = executeDepdencyUpdates()
+    const updateText = asUpdateText(await updates)
+    const hasUpdates = updateText !== ''
 
-    core.debug(new Date().toTimeString())
-    await wait(parseInt(ms, 10))
-    core.debug(new Date().toTimeString())
-
-    core.setOutput('time', new Date().toTimeString())
+    core.setOutput('has_updates', hasUpdates.toString())
+    core.info(`has_updates=${hasUpdates}`)
+    core.setOutput('update_text', updateText)
+    core.setOutput('update_json', JSON.stringify(updateText))
   } catch (error) {
     core.setFailed(error.message)
   }

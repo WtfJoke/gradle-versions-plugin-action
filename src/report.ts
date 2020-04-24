@@ -1,4 +1,5 @@
 import {OutdatedLibrary} from './result/OutdatedLibrary'
+import {EOL} from 'os'
 
 export function toOutdatedLibraries(value: string): OutdatedLibrary[] {
   if (!value) {
@@ -14,15 +15,23 @@ export function toOutdatedLibraries(value: string): OutdatedLibrary[] {
       continue
     }
 
-    const outdatedLibrary: OutdatedLibrary = asOutdatedLibrary(
-      dependency,
-      update
-    )
+    const outdatedLibrary = asOutdatedLibrary(dependency, update)
 
     outdatedLibaries.push(outdatedLibrary)
   }
 
   return outdatedLibaries
+}
+
+export function asUpdateText(outdatedLibaries: OutdatedLibrary[]): string {
+  const outputText = outdatedLibaries
+    .map(library => asUpdateTextFromLibrary(library))
+    .join(EOL)
+  return outputText
+}
+
+function asUpdateTextFromLibrary(library: OutdatedLibrary): string {
+  return `${library.name}: new version ${library.latestVersion}`
 }
 
 function asOutdatedLibrary(

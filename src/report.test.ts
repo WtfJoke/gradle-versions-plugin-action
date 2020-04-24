@@ -1,4 +1,5 @@
-import {toOutdatedLibraries} from './report'
+import {toOutdatedLibraries, asUpdateText} from './report'
+import {EOL} from 'os'
 
 test('with valid json expect outdated library can be parsed', async () => {
   const outdatedLibraries = toOutdatedLibraries(dependencyUpdatesJson)
@@ -23,6 +24,17 @@ test('with valid json expect outdated plugin can be parsed', async () => {
   expect(anOutdatedPlugin.currentVersion).toBe('0.27.0')
   expect(anOutdatedPlugin.latestVersion).toBe('0.28.0')
   expect(anOutdatedPlugin.projectUrl).toBeNull()
+})
+
+test('with updates expect output text', async () => {
+  const outdatedLibraries = toOutdatedLibraries(dependencyUpdatesJson)
+
+  expect(outdatedLibraries.length).toBe(2)
+  const updateText = asUpdateText(outdatedLibraries)
+  expect(updateText.split(EOL).length).toBe(2)
+  expect(updateText).toBe(
+    `com.github.ben-manes.versions: new version 0.28.0${EOL}de.codecentric:chaos-monkey-spring-boot: new version 2.2.0`
+  )
 })
 
 const dependencyUpdatesJson = `{
