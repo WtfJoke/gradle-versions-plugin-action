@@ -19,3 +19,12 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - uses: ./
+      id: versionsaction
+      # with: 
+      #   working_directory: test_project
+  # verify:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   - name: Run Build and Code Coverage
+  #   run: |
+  #   echo has_update: "${{ steps.outdated.outputs.has_update }}"
