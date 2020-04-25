@@ -48,8 +48,11 @@ on:
 ```
 
 </br>
+
 ## Contributing / Author Notes
+
 ### How to distribute this action
+
 #### Publish to a distribution branch
 
 Actions are run from GitHub repos so we will checkin the packed dist folder. 
