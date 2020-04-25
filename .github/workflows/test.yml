@@ -39,3 +39,4 @@ jobs:
     - name: Check action output
       run: |
         echo has_update: "${{ steps.versionsaction.outputs.has_updates }}"
+        echo update_text: "${{ steps.versionsaction.outputs.update_text }}"
