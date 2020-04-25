@@ -5,7 +5,7 @@ on: # rebuild any PRs and main branch changes
     branches:
       - master
       - 'releases/*'
-      - 'sampleProject'
+      - 'sampleProject2'
 
 jobs:
   build: # make sure build/ci work properly
@@ -25,14 +25,14 @@ jobs:
         java-version: 11
     - name: Make gradlew executable
       run: |
-        cd testproject  
+        cd demo  
         chmod +x gradlew
         ./gradlew build
         
     - uses: ./
       id: versionsaction
       with: 
-        working_directory: testproject
+        working_directory: demo
     - name: Check action output
       run: |
-        echo has_update: "${{ steps.versionsaction.outputs.has_update }}"
+        echo has_update: "${{ steps.versionsaction.outputs.has_updates }}"
