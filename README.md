@@ -1,74 +1,56 @@
-<p align="center">
-  <a href="https://github.com/actions/typescript-action/actions"><img alt="typescript-action status" src="https://github.com/actions/typescript-action/workflows/build-test/badge.svg"></a>
-</p>
+![build-test](https://github.com/WtfJoke/gradle-versions-plugin-action/workflows/build-test/badge.svg)
 
-# Create a JavaScript Action using TypeScript
+# Gradle Versions Plugin Github Action
+An Action for using [Gradle Versions Plugin](https://github.com/ben-manes/gradle-versions-plugin) results in other github actions.
 
-Use this template to bootstrap the creation of a JavaScript action.:rocket:
 
-This template includes compilication support, tests, a validation workflow, publishing, and versioning guidance.  
-
-If you are new, there's also a simpler introduction.  See the [Hello World JavaScript Action](https://github.com/actions/hello-world-javascript-action)
-
-## Create an action from this template
-
-Click the `Use this Template` and provide the new repo details for your action
-
-## Code in Master
-
-Install the dependencies  
-```bash
-$ npm install
+## Usage
+```yaml
+- uses: WtfJoke/gradle-versions-plugin-action@v1
+  id: versionsaction # any name for referencing in steps.<anyname>.outputs
+- name: Echo Action output
+      run: |
+        echo has_update: "${{ steps.versionsaction.outputs.has_updates }}"
+        echo update_text: "${{ steps.versionsaction.outputs.update_text }}"
 ```
 
-Build the typescript and package it for distribution
-```bash
-$ npm run build && npm run pack
+### Note
+This action must be executed after [setup-java](https://github.com/actions/setup-java) action. 
+The [Gradle Versions Plugin](https://github.com/ben-manes/gradle-versions-plugin) needs to be added as dependency in the project (if not already done).
+
+### Example with Slack
+
+```yaml
+name: Check for Dependency Updates
+on: 
+  schedule:
+    - cron: '0 8 * * 3' # every wednesday 08:00
+  checkUpdates: 
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up JDK 11
+      uses: actions/setup-java@v1
+      with:
+        java-version: 11
+    - uses: WtfJoke/gradle-versions-plugin-action@v1
+      id: versionsaction
+    - name: Post to Slack
+      uses: 8398a7/action-slack@v3
+      if: steps.versionsaction.outputs.has_updates == 'true'
+      with:
+        status: ${{ job.status }}
+        text: ${{ steps.versionsaction.outputs.update_text }}
+        author_name: GitHub Action Update Checker
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 ```
 
-Run the tests :heavy_check_mark:  
-```bash
-$ npm test
-
- PASS  ./index.test.js
-  ✓ throws invalid number (3ms)
-  ✓ wait 500 ms (504ms)
-  ✓ test runs (95ms)
-
-...
-```
-
-## Change action.yml
-
-The action.yml contains defines the inputs and output for your action.
-
-Update the action.yml with your name, description, inputs and outputs for your action.
-
-See the [documentation](https://help.github.com/en/articles/metadata-syntax-for-github-actions)
-
-## Change the Code
-
-Most toolkit and CI/CD operations involve async operations so the action is run in an async function.
-
-```javascript
-import * as core from '@actions/core';
-...
-
-async function run() {
-  try { 
-      ...
-  } 
-  catch (error) {
-    core.setFailed(error.message);
-  }
-}
-
-run()
-```
-
-See the [toolkit documentation](https://github.com/actions/toolkit/blob/master/README.md#packages) for the various packages.
-
-## Publish to a distribution branch
+</br>
+## Contributing / Author Notes
+### How to distribute this action
+#### Publish to a distribution branch
 
 Actions are run from GitHub repos so we will checkin the packed dist folder. 
 
@@ -84,18 +66,6 @@ Your action is now published! :rocket:
 
 See the [versioning documentation](https://github.com/actions/toolkit/blob/master/docs/action-versioning.md)
 
-## Validate
-
-You can now validate the action by referencing `./` in a workflow in your repo (see [test.yml](.github/workflows/test.yml)])
-
-```yaml
-uses: ./
-with:
-  milliseconds: 1000
-```
-
-See the [actions tab](https://github.com/actions/javascript-action/actions) for runs of this action! :rocket:
-
-## Usage:
+#### Usage:
 
 After testing you can [create a v1 tag](https://github.com/actions/toolkit/blob/master/docs/action-versioning.md) to reference the stable and latest V1 action
