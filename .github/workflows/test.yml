@@ -5,6 +5,7 @@ on: # rebuild any PRs and main branch changes
     branches:
       - master
       - 'releases/*'
+      - 'sampleProject'
 
 jobs:
   build: # make sure build/ci work properly
@@ -18,13 +19,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
+    - name: Make gradlew executable
+      run: |
+        chmod +x testproject/gradlew
+        ls -la testproject/
     - uses: ./
       id: versionsaction
-      # with: 
-      #   working_directory: test_project
-  # verify:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #   - name: Run Build and Code Coverage
-  #   run: |
-  #   echo has_update: "${{ steps.outdated.outputs.has_update }}"
+      with: 
+        working_directory: testproject
+    - name: Check action output
+      run: |
+        echo has_update: "${{ steps.versionsaction.outputs.has_update }}"
