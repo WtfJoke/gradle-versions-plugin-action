@@ -976,8 +976,8 @@ const report_1 = __webpack_require__(684);
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
+            const directory = core.getInput('working_directory');
             core.info("Executing gradle task 'dependencyUpdates'");
-            const directory = core.getInput('working_directory') || process.cwd();
             const updates = gradle_1.executeDepdencyUpdates(directory);
             const updateText = report_1.asUpdateText(yield updates);
             const hasUpdates = updateText !== '';
@@ -1017,20 +1017,30 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const exec_1 = __webpack_require__(986);
 const path_1 = __webpack_require__(622);
 const report_1 = __webpack_require__(684);
+const core = __importStar(__webpack_require__(470));
 function executeDepdencyUpdates(directory) {
     return __awaiter(this, void 0, void 0, function* () {
+        const cwd = directory ? path_1.resolve(directory) : undefined;
+        core.info(`Directory: ${cwd}`);
         const gradle = process.platform === 'win32' ? 'gradlew' : './gradlew';
         const gradleExecOptions = {};
-        gradleExecOptions.cwd = directory;
+        gradleExecOptions.cwd = cwd;
         yield exec_1.exec(gradle, ['dependencyUpdates', '-DoutputFormatter=json'], gradleExecOptions);
         const reportPath = path_1.join('build', 'dependencyUpdates', 'report.json');
         let dependencyUpdatesOutput = '';
         const execOptions = {};
-        execOptions.cwd = directory;
+        execOptions.cwd = cwd;
         execOptions.listeners = {
             stdout: (data) => {
                 dependencyUpdatesOutput += data.toString();
