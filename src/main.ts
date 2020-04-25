@@ -4,8 +4,9 @@ import {asUpdateText} from './report'
 
 async function run(): Promise<void> {
   try {
+    const directory: string = core.getInput('working_directory')
     core.info("Executing gradle task 'dependencyUpdates'")
-    const updates = executeDepdencyUpdates()
+    const updates = executeDepdencyUpdates(directory)
     const updateText = asUpdateText(await updates)
     const hasUpdates = updateText !== ''
 

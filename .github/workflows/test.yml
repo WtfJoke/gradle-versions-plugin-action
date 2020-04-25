@@ -11,6 +11,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
+    - name: Set up JDK 11
+      uses: actions/setup-java@v1
+      with:
+        java-version: 11
+    - name: Make gradlew executable
+      run: |
+        chmod +x demo/gradlew
     - run: |
         npm install
         npm run all
@@ -18,4 +25,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
+    - name: Set up JDK 11
+      uses: actions/setup-java@v1
+      with:
+        java-version: 11
+    - name: Make gradlew executable
+      run: |
+        chmod +x demo/gradlew
     - uses: ./
+      id: versionsaction
+      with: 
+        working_directory: demo
+    - name: Check action output
+      run: |
+        echo has_update: "${{ steps.versionsaction.outputs.has_updates }}"
