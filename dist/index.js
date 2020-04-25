@@ -1036,7 +1036,6 @@ function executeDepdencyUpdates(directory) {
         const gradle = process.platform === 'win32' ? 'gradlew' : './gradlew';
         const gradleExecOptions = {};
         gradleExecOptions.cwd = cwd;
-        yield exec_1.exec('dir', [], gradleExecOptions);
         yield exec_1.exec(gradle, ['dependencyUpdates', '-DoutputFormatter=json'], gradleExecOptions);
         const reportPath = path_1.join('build', 'dependencyUpdates', 'report.json');
         let dependencyUpdatesOutput = '';
