@@ -30,7 +30,7 @@
   "homepage": "https://github.com/WtfJoke/gradle-versions-plugin-action#readme",
   "dependencies": {
     "@actions/core": "^1.2.3",
-    "@actions/exec": "^1.0.3"
+    "@actions/exec": "^1.0.4"
   },
   "devDependencies": {
     "@types/jest": "^25.2.1",
